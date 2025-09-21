@@ -30,10 +30,15 @@ app.use(passport.initialize());
 
 app.use(
   cors({
-    origin: ["http://localhost:5174", "http://localhost:5175"], // allow both ports
+    origin: [
+      "http://localhost:5173", 
+      "http://localhost:5174", 
+      "https://finora-ai-finance-platform-umch-l1jax6hl7-dikeledis-projects.vercel.app"
+    ],
     credentials: true,
   })
 );
+
 
 
 

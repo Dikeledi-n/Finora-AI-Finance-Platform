@@ -37,15 +37,10 @@ app.use(
 
 
 
-app.get(
-  "/",
-  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    throw new BadRequestException("This is a test error");
-    res.status(HTTPSTATUS.OK).json({
-      message: "Hello",
-    });
-  })
-);
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Backend is running" });
+});
+
 
 app.use(`${BASE_PATH}/auth`, authRoute);
 app.use(`${BASE_PATH}/user`, passportAuthenticateJwt, userRoutes);

@@ -32,18 +32,30 @@ const SignUpForm = () => {
 
   const onSubmit = async (values: FormValues) => {
     try {
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+     const response = await fetch(`${API_URL}/auth/register`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(values),
+});
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to register");
-      }
+if (!response.ok) {
+  // Check if response is JSON
+  const contentType = response.headers.get("content-type");
+  let errorMessage = "Failed to register";
+
+  if (contentType && contentType.includes("application/json")) {
+    const errorData = await response.json();
+    errorMessage = errorData.message || errorMessage;
+  } else {
+    const text = await response.text();
+    console.error("Non-JSON error response:", text);
+  }
+
+  throw new Error(errorMessage);
+}
+
 
       toast.success("Sign up successful!");
       form.reset();
